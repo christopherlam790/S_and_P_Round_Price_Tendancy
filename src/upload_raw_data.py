@@ -26,7 +26,7 @@ def prep_df_for_sql(df):
     return df
 
     
-def download_data_as_postgressql(df, ticker):
+def upload_data_as_postgressql(df, ticker):
     
     conn = psycopg2.connect(
         host=os.getenv("PG_HOST"),
@@ -41,7 +41,7 @@ def download_data_as_postgressql(df, ticker):
     # do things
     
     curr.execute(f"""
-    CREATE TABLE IF NOT EXISTS {ticker}_daily_prices (
+    CREATE TABLE IF NOT EXISTS {ticker}_daily_prices_raw (
         date TIMESTAMPTZ NOT NULL,
         open DOUBLE PRECISION,
         high DOUBLE PRECISION,
@@ -56,7 +56,7 @@ def download_data_as_postgressql(df, ticker):
     records = df.itertuples(index=False, name=None)
 
     insert_sql = f"""
-    INSERT INTO {ticker}_daily_prices (date, open, high, low, close, volume)
+    INSERT INTO {ticker}_daily_prices_raw (date, open, high, low, close, volume)
     VALUES (%s, %s, %s, %s, %s, %s)
     ON CONFLICT (date) DO NOTHING;
     """
@@ -69,18 +69,11 @@ def download_data_as_postgressql(df, ticker):
 
     return True
 
-def verify_download():
-    
-    return True
-
-
-
-
 
 """
-Download raw data into PostgreSQL
+Upload raw data into PostgreSQL
 """
-def download_raw_data(ticker):
+def upload_raw_data(ticker):
     
     df = preprocess_raw_data.preprocess_data(symbol=ticker)
     
@@ -94,8 +87,7 @@ def download_raw_data(ticker):
         return ticker.replace("^", "")
         
         
-    
-    download_data_as_postgressql(df=df_sql, ticker=sql_ticker_converter(ticker))   
+    upload_data_as_postgressql(df=df_sql, ticker=sql_ticker_converter(ticker))   
     
     return
 
@@ -108,7 +100,7 @@ Testing Section
 if __name__ == "__main__":
     
     
-    download_raw_data("SPY")
+    upload_raw_data("SPY")
     
     print("TESTING COMPLETE")
     
