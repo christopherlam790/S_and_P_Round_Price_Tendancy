@@ -24,7 +24,7 @@ Clean data of unnecassary cols
 """  
 def clean_extra_cols(df):
     
-    df.drop(columns=["Dividends", "Stock Splits"],inplace=True,errors="ignore")
+    df.drop(columns=["Dividends", "Stock Splits", "Capital Gains"],inplace=True,errors="ignore")
     
     return df
 
@@ -74,9 +74,12 @@ Testing Area
 """
 if __name__ == "__main__":
     
-    df = preprocess_data("^SPX")
+    df = preprocess_data("SPY")
     
     print(df)
+    
+    
+    
     
     print("Testing Completed")
     
