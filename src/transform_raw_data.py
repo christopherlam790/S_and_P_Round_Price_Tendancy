@@ -1,5 +1,5 @@
 """
-PREP CLEAN DATA
+RAW DATA -> CLEAN DATA
 """
 
 
@@ -12,12 +12,13 @@ from datetime import datetime
 
 
 
+
+
 """
 Add day of the week to each entry
 @return df
 """
 def add_day_of_week_col(df):
-
 
     def get_weekday_from_yyyymmdd(date_string):
         date_object = datetime.strptime(date_string, '%Y-%m-%d %H:%M:%S%z')
