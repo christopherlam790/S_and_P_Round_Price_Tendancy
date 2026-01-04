@@ -13,8 +13,7 @@ import os
 load_dotenv()
 
 
-import preprocess_raw_data
-
+import preprocess_raw_data as preprocess_raw_data
 
     
 def prep_df_for_sql(df):
