@@ -14,7 +14,7 @@ from dotenv import load_dotenv
 """
 Pull ticker's raw data, if it exists, from PGSQL db
 """
-def get_df_from_sql(ticker):
+def get_raw_df_from_sql(ticker):
     
     try:
         load_dotenv()
@@ -30,6 +30,16 @@ def get_df_from_sql(ticker):
         raise Exception("No connection; Check creds")
 
     try:
+        
+        """
+        Convert ticker for SQL format
+        """
+        def sql_ticker_converter(ticker):
+            
+            return ticker.replace("^", "")
+        
+        ticker = sql_ticker_converter(ticker=ticker)
+        
         query = f"""
         SELECT date, open, high, low, close, volume
         FROM {ticker}_daily_prices_raw
@@ -46,12 +56,11 @@ def get_df_from_sql(ticker):
         raise Exception("Failed to pull data; Check df integrity & schema")
 
 
-
 """
 =======
 TEST AREA
 """
 if __name__ == "__main__":
-    df = get_df_from_sql("SPY")
+    df = get_raw_df_from_sql("SPY")
     
     print(df.columns)
