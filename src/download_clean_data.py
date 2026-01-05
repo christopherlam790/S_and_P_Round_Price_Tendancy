@@ -12,9 +12,9 @@ from dotenv import load_dotenv
 
 
 """
-Pull ticker's raw data, if it exists, from PGSQL db
+Pull ticker's clean data, if it exists, from PGSQL db
 """
-def get_raw_df_from_sql(ticker):
+def get_clean_df_from_sql(ticker):
     
     try:
         load_dotenv()
@@ -73,6 +73,6 @@ def get_raw_df_from_sql(ticker):
 TEST AREA
 """
 if __name__ == "__main__":
-    df = get_raw_df_from_sql("SPY")
+    df = get_clean_df_from_sql("SPY")
     
     print(df)
