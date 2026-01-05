@@ -31,9 +31,11 @@ def add_day_of_week_col(df):
     for date in df.index:
         weekday.append(get_weekday_from_yyyymmdd(str(date)))
         
-    df["Weekday"] = weekday
+    df["weekday"] = weekday
     
     return df
+
+
 
 """
 =========
@@ -156,7 +158,7 @@ def add_is_dollar_rounded_tolerance_1_multiple_of_10(df):
 
 
 
-def transform_raw_date(ticker):
+def transform_raw_data(ticker):
     # Get data
     df = get_raw_df_from_sql(ticker=ticker) 
     
@@ -192,7 +194,9 @@ TESTING AREA
 if __name__ == "__main__":
     
     
-    transform_raw_date("SPY")
+    df = transform_raw_data("SPY")
+    
+    print(df["weekday"])
     
     
         
