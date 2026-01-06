@@ -222,7 +222,7 @@ def get_stat_sig(df, pval_threshold=0.05, wilson_threshold=0.05):
     """
     def wilson_ci(successes, n, alpha=0.05):
         return proportion_confint(
-            count=successes,
+            count=int(round(successes * n)),
             nobs=n,
             alpha=alpha,
             method="wilson"
@@ -242,6 +242,13 @@ def get_stat_sig(df, pval_threshold=0.05, wilson_threshold=0.05):
             z, pval = proportion_z_test(p_hat, p0, n)
             ci_low, ci_high = wilson_ci(p_hat, n, alpha=wilson_threshold)
 
+
+            # Sanity check
+            assert ci_low <= p_hat <= ci_high
+            assert 0 <= ci_low <= 1
+            assert 0 <= ci_high <= 1
+
+
             results.append({
                 "day": day,
                 "feature": feature,
@@ -253,7 +260,7 @@ def get_stat_sig(df, pval_threshold=0.05, wilson_threshold=0.05):
                 "p_value": pval,
                 "ci_low": ci_low,
                 "ci_high": ci_high,
-                f"significant_{pval_threshold * 100}pct": pval < pval_threshold
+                "is_significant": pval < pval_threshold
             })
 
     results_df = pd.DataFrame(results)
@@ -267,6 +274,8 @@ def get_combined_final_stats(ticker, pval_threshold=0.05, wilson_threshold=0.05)
     stat_df = get_stat_sig(df, pval_threshold=pval_threshold)
     
     stat_df["ticker"] = ticker
+    stat_df["pval_threshold"] = pval_threshold
+    stat_df["wilson_threshold"] = wilson_threshold
     
     return stat_df
 
@@ -275,7 +284,7 @@ if __name__ == "__main__":
     
 
     
-    print(get_combined_final_stats("^SPX", pval_threshold=0.05))    
+    print(get_combined_final_stats("^SPX", pval_threshold=0.05).columns)    
     
     print("TESTING COMPLETE")
     
