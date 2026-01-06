@@ -183,7 +183,9 @@ def analyze_all_clean_data(ticker):
 Statistical Significance
 """
 
-
+"""
+Expected probs based on random chance
+"""
 def get_EXPECTED_P():
     
     
@@ -200,25 +202,31 @@ def get_EXPECTED_P():
     return EXPECTED_P
 
 
-def proportion_z_test(p_hat, p0, n):
-    se = np.sqrt(p0 * (1 - p0) / n)
-    z = (p_hat - p0) / se
-    p_value = 2 * (1 - norm.cdf(abs(z)))  # two-sided
-    return z, p_value
+
+"""
+Get sig stat df
+"""
+def get_stat_sig(df, pval_threshold=0.05, wilson_threshold=0.05):
+    """
+    Z test
+    """
+    def proportion_z_test(p_hat, p0, n):
+        se = np.sqrt(p0 * (1 - p0) / n)
+        z = (p_hat - p0) / se
+        p_value = 2 * (1 - norm.cdf(abs(z)))  # two-sided
+        return z, p_value
 
 
-
-def wilson_ci(successes, n, alpha=0.05):
-    return proportion_confint(
-        count=successes,
-        nobs=n,
-        alpha=alpha,
-        method="wilson"
-    )
-
-
-def get_stat_sig(df, pval_threshold=0.05):
-    
+    """
+    Confidence ints
+    """
+    def wilson_ci(successes, n, alpha=0.05):
+        return proportion_confint(
+            count=successes,
+            nobs=n,
+            alpha=alpha,
+            method="wilson"
+        )
     results = []
 
     for _, row in df.iterrows():
@@ -232,7 +240,7 @@ def get_stat_sig(df, pval_threshold=0.05):
             n = row[n_col]
 
             z, pval = proportion_z_test(p_hat, p0, n)
-            ci_low, ci_high = wilson_ci(p_hat, n)
+            ci_low, ci_high = wilson_ci(p_hat, n, alpha=wilson_threshold)
 
             results.append({
                 "day": day,
@@ -249,20 +257,25 @@ def get_stat_sig(df, pval_threshold=0.05):
             })
 
     results_df = pd.DataFrame(results)
-    
-    
+
     return results_df
 
-if __name__ == "__main__":
-    
-    df = analyze_all_clean_data("^SPX")
-    
-    pval_threshold = 0.1
+
+def get_combined_final_stats(ticker, pval_threshold=0.05, wilson_threshold=0.05):
+    df = analyze_all_clean_data(ticker=ticker)
     
     stat_df = get_stat_sig(df, pval_threshold=pval_threshold)
     
-    print(stat_df[(stat_df["delta"] > 0) & (stat_df[f"significant_{pval_threshold * 100}pct"] == True) ])
+    stat_df["ticker"] = ticker
     
+    return stat_df
+
+if __name__ == "__main__":
+    
+    
+
+    
+    print(get_combined_final_stats("^SPX", pval_threshold=0.05))    
     
     print("TESTING COMPLETE")
     
