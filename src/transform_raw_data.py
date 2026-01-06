@@ -3,11 +3,7 @@ RAW DATA -> CLEAN DATA
 """
 
 
-import yfinance as yf
 import numpy as np
-import pandas as pd
-from sqlalchemy import create_engine
-import os
 from datetime import datetime
 
 from download_raw_data import get_raw_df_from_sql
@@ -16,7 +12,6 @@ from download_raw_data import get_raw_df_from_sql
 
 """
 Add day of the week to each entry
-@return df
 """
 def add_day_of_week_col(df):
 
@@ -164,6 +159,7 @@ def transform_raw_data(ticker):
     
     df = add_day_of_week_col(df=df)
     
+    
     # Add rounded cols
     df = add_true_rounded_close(df=df)
     df = add_true_dollar_rounded_close(df=df)
@@ -196,7 +192,8 @@ if __name__ == "__main__":
     
     df = transform_raw_data("SPY")
     
-    print(df["weekday"])
+    print(df.columns)
+
     
     
         
