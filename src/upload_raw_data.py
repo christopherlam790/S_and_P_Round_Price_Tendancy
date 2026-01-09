@@ -99,7 +99,7 @@ Testing Section
 if __name__ == "__main__":
     
     
-    upload_raw_data("SPY")
+    upload_raw_data("^XSP")
     
     print("TESTING COMPLETE")
     

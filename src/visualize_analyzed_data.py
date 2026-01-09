@@ -91,9 +91,9 @@ def generate_diagnostic_plot(ticker, pval_threshold, wilson_threshold):
 
 if __name__ == "__main__":  
     
-    ticker = "^XSP"
-    pval_threshol = 0.2
-    wilson_threshold = 0.2
+    ticker = "^SPX"
+    pval_threshol = 0.05
+    wilson_threshold = 0.05
     
     generate_point_estimate_vs_null_with_ci(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
     generate_delta_heatmap(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)  

@@ -12,7 +12,7 @@ from pandas.api.types import (
 Return Data from ticker
 @return df
 """
-def get_data(ticker, period="max", interval="1d", start="2007-01-01"):
+def get_data(ticker, period="max", interval="1d", start="2021-03-01"):
     asset = yf.Ticker(ticker=ticker)
     
     return asset.history(period=period, interval=interval, start=start)

@@ -162,7 +162,7 @@ Testing Section
 if __name__ == "__main__":
     
     
-    upload_raw_data("^XSP", pval_threhsold=0.2, wilson_threshold=0.2)
+    upload_raw_data("^SPX", pval_threhsold=0.2, wilson_threshold=0.2)
     
     print("TESTING COMPLETE")
     
