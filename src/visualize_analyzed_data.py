@@ -91,7 +91,7 @@ def generate_diagnostic_plot(ticker, pval_threshold, wilson_threshold):
 
 if __name__ == "__main__":  
     
-    ticker = "^SPX"
+    ticker = "^XSP"
     pval_threshol = 0.05
     wilson_threshold = 0.05
     
