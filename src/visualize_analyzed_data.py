@@ -66,7 +66,7 @@ def generate_delta_heatmap(ticker, pval_threshold, wilson_threshold):
     plt.title(f"{ticker} Delta Heatmap by Day and Feature\n pval_threshold: {pval_threshold} & wilson_threshold: {wilson_threshold}")
     plt.tight_layout()
     
-    plt.savefig(f"{ticker} Delta Heatmap by Day and Feature\n pval_threshold({pval_threshold}) & wilson_threshold({wilson_threshold}).jpg")
+    plt.savefig(f"{ticker} Delta Heatmap by Day and Feature\n pval_threshold: {pval_threshold} & wilson_threshold: {wilson_threshold}.jpg")
     plt.show()
 
     
@@ -85,7 +85,7 @@ def generate_diagnostic_plot(ticker, pval_threshold, wilson_threshold):
     plt.title(f"{ticker} Effect Size vs Statistical Significance \n {pval_threshold} & wilson_threshold: {wilson_threshold}")
     plt.tight_layout()
     
-    plt.savefig(f"{ticker} Effect Size vs Statistical Significance \n pval_threshold({pval_threshold}) & wilson_threshold({wilson_threshold}).jpg")
+    plt.savefig(f"{ticker} Effect Size vs Statistical Significance \n {pval_threshold} & wilson_threshold: {wilson_threshold}.jpg")
     plt.show()
 
 
@@ -96,6 +96,6 @@ if __name__ == "__main__":
     wilson_threshold = 0.05
     
     # generate_point_estimate_vs_null_with_ci(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
-    generate_delta_heatmap(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)  
+    # generate_delta_heatmap(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)  
     generate_diagnostic_plot(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
     
