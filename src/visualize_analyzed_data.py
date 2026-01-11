@@ -79,7 +79,7 @@ def generate_diagnostic_plot(ticker, pval_threshold, wilson_threshold):
 
     plt.figure()
     plt.scatter(d["delta"], -np.log10(d["p_value"]))
-    plt.axhline(-np.log10(0.05), linestyle="--")
+    plt.axhline(-np.log10(pval_threshol), linestyle="--")
     plt.xlabel("p̂ − p₀")
     plt.ylabel("-log10(p-value)")
     plt.title(f"{ticker} Effect Size vs Statistical Significance \n {pval_threshold} & wilson_threshold: {wilson_threshold}")
@@ -92,10 +92,10 @@ def generate_diagnostic_plot(ticker, pval_threshold, wilson_threshold):
 if __name__ == "__main__":  
     
     ticker = "^XSP"
-    pval_threshol = 0.05
-    wilson_threshold = 0.05
+    pval_threshol = 0.1
+    wilson_threshold = 0.1
     
-    generate_point_estimate_vs_null_with_ci(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
-    generate_delta_heatmap(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)  
+    # generate_point_estimate_vs_null_with_ci(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
+    # generate_delta_heatmap(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)  
     generate_diagnostic_plot(ticker=ticker, pval_threshold=pval_threshol, wilson_threshold=wilson_threshold)
     
